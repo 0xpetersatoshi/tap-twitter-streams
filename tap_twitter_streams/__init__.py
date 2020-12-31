@@ -9,7 +9,7 @@ from singer.schema import Schema
 
 from tap_twitter_streams.api import stream_tweets
 
-REQUIRED_CONFIG_KEYS = ["rules"]
+REQUIRED_CONFIG_KEYS = ["rules", "bearer_token"]
 KEY_PROPERTIES = {"twitter_stream": ["tweet_id"]}
 LOGGER = singer.get_logger()
 
@@ -74,7 +74,7 @@ def sync(config, state, catalog):
         #     key_properties=stream.key_properties,
         # )
 
-        stream_tweets(stream.tap_stream_id, stream.schema.to_dict(), config["rules"])
+        stream_tweets(stream.tap_stream_id, stream.schema.to_dict(), config)
 
         # # TODO: delete and replace this inline function with your own data retrieval process:
         # tap_data = lambda: [{"id": x, "name": "row${x}"} for x in range(1000)]

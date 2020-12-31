@@ -86,10 +86,12 @@ def get_stream(headers, singer_stream, singer_schema):
             singer.write_record(singer_stream, record)
 
 
-def stream_tweets(stream_id, schema, rules):
-    bearer_token = os.environ.get("BEARER_TOKEN")
+def stream_tweets(stream_id, schema, config):
+    bearer_token = config.get("bearer_token")
+    if bearer_token is None or len(bearer_token) == 0:
+        bearer_token = os.environ.get("BEARER_TOKEN")
     headers = create_headers(bearer_token)
     rules_to_delete = get_rules(headers)
     delete_all_rules(headers, rules_to_delete)
-    set_rules(headers, rules)
+    set_rules(headers, config.get("rules"))
     get_stream(headers, stream_id, schema)

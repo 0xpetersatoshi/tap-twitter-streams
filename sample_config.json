@@ -1,4 +1,5 @@
 {
+  "bearer_token": "",
   "rules": [
     {"value": "bitcoin is:verified", "tag": "bitcoin tweets by verified users"},
     {"value": "ethereum is:verified", "tag": "ethereum tweets by verified users"},
