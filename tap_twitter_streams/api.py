@@ -10,7 +10,7 @@ import singer
 # export 'BEARER_TOKEN'='<your_bearer_token>'
 
 def create_headers(bearer_token):
-    headers = {"Authorization": "Bearer {}".format(bearer_token)}
+    headers = {"Authorization": f"Bearer {bearer_token}"}
     return headers
 
 
@@ -20,7 +20,7 @@ def get_rules(headers):
     )
     if response.status_code != 200:
         raise Exception(
-            "Cannot get rules (HTTP {}): {}".format(response.status_code, response.text)
+            f"Cannot get rules (HTTP {response.status_code}): {response.text}"
         )
     return response.json()
 
@@ -38,9 +38,7 @@ def delete_all_rules(headers, rules):
     )
     if response.status_code != 200:
         raise Exception(
-            "Cannot delete rules (HTTP {}): {}".format(
-                response.status_code, response.text
-            )
+            f"Cannot delete rules (HTTP {response.status_code}): {response.text}"
         )
 
 
@@ -55,22 +53,20 @@ def set_rules(headers, rules):
     )
     if response.status_code != 201:
         raise Exception(
-            "Cannot add rules (HTTP {}): {}".format(response.status_code, response.text)
+            f"Cannot add rules (HTTP {response.status_code}): {response.text}"
         )
 
 
-def get_stream(headers, singer_stream, singer_schema):
+def get_stream(headers, singer_stream, singer_schema, key_properties):
     response = requests.get(
         "https://api.twitter.com/2/tweets/search/stream", headers=headers, stream=True,
     )
     if response.status_code != 200:
         raise Exception(
-            "Cannot get stream (HTTP {}): {}".format(
-                response.status_code, response.text
-            )
+            f"Cannot get stream (HTTP {response.status_code}): {response.text}"
         )
     # return None
-    singer.write_schema(singer_stream, singer_schema, "tweet_id")
+    singer.write_schema(singer_stream, singer_schema, key_properties)
     for response_line in response.iter_lines():
         if response_line:
             json_response = json.loads(response_line)
@@ -86,7 +82,7 @@ def get_stream(headers, singer_stream, singer_schema):
             singer.write_record(singer_stream, record)
 
 
-def stream_tweets(stream_id, schema, config):
+def stream_tweets(stream_id, schema, key_properties, config):
     bearer_token = config.get("bearer_token")
     if bearer_token is None or len(bearer_token) == 0:
         bearer_token = os.environ.get("BEARER_TOKEN")
@@ -94,4 +90,4 @@ def stream_tweets(stream_id, schema, config):
     rules_to_delete = get_rules(headers)
     delete_all_rules(headers, rules_to_delete)
     set_rules(headers, config.get("rules"))
-    get_stream(headers, stream_id, schema)
+    get_stream(headers, stream_id, schema, key_properties)

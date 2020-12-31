@@ -3,6 +3,7 @@
         "null",
         "object"
     ],
+    "selected": true,
     "additionalProperties": false,
     "properties": {
         "tweet_id": {
