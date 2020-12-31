@@ -1,0 +1,7 @@
+{
+  "rules": [
+    {"value": "bitcoin is:verified", "tag": "bitcoin tweets by verified users"},
+    {"value": "ethereum is:verified", "tag": "ethereum tweets by verified users"},
+    {"value": "crypto -is:retweet", "tag": "original crypto tweets only"}
+  ]
+}

@@ -1,0 +1,25 @@
+{
+    "type": [
+        "null",
+        "object"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "tweet_id": {
+            "type": "string"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "text": {
+            "type": "string"
+        },
+        "tag_id": {
+            "type": "integer"
+        },
+        "tag_value": {
+            "type": "string"
+        }
+    }
+}
