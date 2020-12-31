@@ -6,11 +6,8 @@ spec](https://github.com/singer-io/getting-started/blob/master/SPEC.md).
 
 This tap:
 
-- Pulls raw data from [FIXME](http://example.com)
-- Extracts the following resources:
-  - [FIXME](http://example.com)
-- Outputs the schema for each resource
-- Incrementally pulls data based on the input state
+- Pulls raw data from the Twitter [Filtered Stream API](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/introduction)
+- Streams tweets in real-time that match the "rules" defined in a [config.json](sample_config.json) file.
 
 ---
 
